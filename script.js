@@ -106,12 +106,20 @@ let showContent = ({ name, description, brand, imageUrl, price }) => {
   cardWrapper.appendChild(cardBtnsBody)
 
   let cardDetails = document.createElement("a")
-  cardDetails.classList.add("btn", "btn-primary", "m-1")
+  cardDetails.classList.add("btn", "btn-primary", "ms-1")
   cardDetails.innerText = 'Details'
   cardBtnsBody.appendChild(cardDetails)
+  
+  /* Icona fontAwesome dell'icona plus: 
+  <i class="fa-solid fa-circle-plus" style="color: #dfdddd;"></i>
+   */
+  let cardDetailsIcon = document.createElement("i")
+  cardDetailsIcon.classList.add("fa-solid", "fa-circle-plus", "mx-2")
+  cardDetailsIcon.style = "color : #dfdddd"
+  cardDetails.appendChild(cardDetailsIcon)
 
   let cardDelete = document.createElement("a")
-  cardDelete.classList.add("btn", "btn-danger", "m-1")
+  cardDelete.classList.add("btn", "btn-danger", "ms-1")
   cardDelete.innerText = 'Delete'
   cardBtnsBody.appendChild(cardDelete)
 
@@ -119,7 +127,7 @@ let showContent = ({ name, description, brand, imageUrl, price }) => {
   <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
   */
   let cardDelIcon = document.createElement("i")
-  cardDelIcon.classList.add("fa-solid", "fa-trash-can", "mx-1")
+  cardDelIcon.classList.add("fa-solid", "fa-trash-can", "mx-2")
   cardDelIcon.style = "color : #ffffff"
   cardDelete.appendChild(cardDelIcon)
 
