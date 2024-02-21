@@ -84,8 +84,27 @@ let showContent = ({name, description, brand, imageUrl, price}) => {
   let cardTitle = document.createElement('p')
   cardTitle.classList.add("card-text", "title")
   cardTitle.innerText = name
+  cardBody.appendChild(cardTitle)
+
+  let cardDesc = document.createElement('p')
+  cardDesc.classList.add("card-text", "description")
+  cardDesc.innerText = description
+  cardBody.appendChild(cardDesc)
+  
+  let cardBrand = document.createElement('p')
+  cardBrand.classList.add("card-text", "brand")
+  cardBrand.innerText = brand
+  cardBody.appendChild(cardBrand)
+
+  let cardPrice = document.createElement('p')
+  cardPrice.classList.add("card-text", "price")
+  cardPrice.innerText = price
+  cardBody.appendChild(cardPrice)
+
+  contentBox.appendChild(outerCol)
   
   console.log(outerCol)
+  
 }
 
 
