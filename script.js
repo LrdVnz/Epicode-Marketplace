@@ -36,7 +36,7 @@ Piano :
 const endpointUrl = "https://striveschool-api.herokuapp.com/api/product/";
 const authToken =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQzY2VkYzI0ZjYwNTAwMTkzN2Q1MTciLCJpYXQiOjE3MDgzNzk4NjgsImV4cCI6MTcwOTU4OTQ2OH0.71W487-Veydagx0166g0G8xmrhie04KU0_Vs2AxYbq4";
-const contentBox = document.getElementById('content-area');
+const contentBox = document.getElementById("content-area");
 
 window.onload = getContent();
 
@@ -47,66 +47,86 @@ async function getContent() {
         Authorization: authToken,
       },
     });
-    const json = await res.json(); 
-    cycleContent(json)
+    const json = await res.json();
+    cycleContent(json);
   } catch (error) {
     console.log(error);
   }
 }
 
 let cycleContent = (json) => {
-   contentBox.innerHTML = ''; 
+  contentBox.innerHTML = "";
 
-   json.forEach((single_article) => {
-      showContent(single_article); 
-   })
-}
+  json.forEach((single_article) => {
+    showContent(single_article);
+  });
+};
 
-let showContent = ({name, description, brand, imageUrl, price}) => {
-  /// Usare i metodi javascript per la creazione di nodi del dom. 
-  let outerCol = document.createElement('div')
-  outerCol.classList.add("col-6", "col-md-3")
+let showContent = ({ name, description, brand, imageUrl, price }) => {
+  /// Usare i metodi javascript per la creazione di nodi del dom.
+  let outerCol = document.createElement("div");
+  outerCol.classList.add("col-6", "col-md-3");
 
-  let cardWrapper = document.createElement('div')
-  cardWrapper.classList.add("card", "overflow-hidden")
-  outerCol.appendChild(cardWrapper)
+  let cardWrapper = document.createElement("div");
+  cardWrapper.classList.add("card", "overflow-hidden");
+  outerCol.appendChild(cardWrapper);
 
-  let cardImg = document.createElement('img')
-  cardImg.classList.add("card-img-top")
-  cardImg.src = imageUrl
-  cardImg.alt = description
-  cardWrapper.appendChild(cardImg)
+  let cardImg = document.createElement("img");
+  cardImg.classList.add("card-img-top");
+  cardImg.src = imageUrl;
+  cardImg.alt = description;
+  cardWrapper.appendChild(cardImg);
 
-  let cardBody = document.createElement('div')
-  cardBody.classList.add("card-body")
-  cardWrapper.appendChild(cardBody)
+  let cardBody = document.createElement("div");
+  cardBody.classList.add("card-body");
+  cardWrapper.appendChild(cardBody);
 
-  let cardTitle = document.createElement('p')
-  cardTitle.classList.add("card-text", "title")
-  cardTitle.innerText = name
-  cardBody.appendChild(cardTitle)
+  let cardTitle = document.createElement("p");
+  cardTitle.classList.add("card-text", "title");
+  cardTitle.innerText = name;
+  cardBody.appendChild(cardTitle);
 
-  let cardDesc = document.createElement('p')
-  cardDesc.classList.add("card-text", "description")
-  cardDesc.innerText = description
-  cardBody.appendChild(cardDesc)
-  
-  let cardBrand = document.createElement('p')
-  cardBrand.classList.add("card-text", "brand")
-  cardBrand.innerText = brand
-  cardBody.appendChild(cardBrand)
+  let cardDesc = document.createElement("p");
+  cardDesc.classList.add("card-text", "description");
+  cardDesc.innerText = description;
+  cardBody.appendChild(cardDesc);
 
-  let cardPrice = document.createElement('p')
-  cardPrice.classList.add("card-text", "price")
-  cardPrice.innerText = price
-  cardBody.appendChild(cardPrice)
+  let cardBrand = document.createElement("p");
+  cardBrand.classList.add("card-text", "brand");
+  cardBrand.innerText = brand;
+  cardBody.appendChild(cardBrand);
 
-  contentBox.appendChild(outerCol)
-  
+  let cardPrice = document.createElement("p");
+  cardPrice.classList.add("card-text", "price");
+  cardPrice.innerText = price;
+  cardBody.appendChild(cardPrice);
+
+  let cardBtnsBody = document.createElement("div")
+  cardBtnsBody.classList.add("card-body", "d-flex", "justify-content-between", "py-1")
+  cardWrapper.appendChild(cardBtnsBody)
+
+  let cardDetails = document.createElement("a")
+  cardDetails.classList.add("btn", "btn-primary", "m-1")
+  cardDetails.innerText = 'Details'
+  cardBtnsBody.appendChild(cardDetails)
+
+  let cardDelete = document.createElement("a")
+  cardDelete.classList.add("btn", "btn-danger", "m-1")
+  cardDelete.innerText = 'Delete'
+  cardBtnsBody.appendChild(cardDelete)
+
+  /* Icona di fontawesome del trash bin : 
+  <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
+  */
+  let cardDelIcon = document.createElement("i")
+  cardDelIcon.classList.add("fa-solid", "fa-trash-can", "mx-1")
+  cardDelIcon.style = "color : #ffffff"
+  cardDelete.appendChild(cardDelIcon)
+
+  contentBox.appendChild(outerCol);
+
   console.log(outerCol)
-  
-}
-
+};
 
 let createContent = () => {
   /// Messo sull'onclick del pulsante 'crea'
@@ -129,6 +149,7 @@ let createContent = () => {
   };
 
   uploadContent(newContent);
+  getContent();
 };
 
 async function uploadContent(newContent) {
