@@ -98,7 +98,7 @@ let showContent = ({ name, description, brand, imageUrl, price }) => {
 
   let cardPrice = document.createElement("p");
   cardPrice.classList.add("card-text", "price");
-  cardPrice.innerText = price;
+  cardPrice.innerText = `${price} €`;
   cardBody.appendChild(cardPrice);
 
   let cardBtnsBody = document.createElement("div")
