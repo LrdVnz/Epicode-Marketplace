@@ -19,46 +19,107 @@ Piano :
    - Funzioni collegate all'api :  
      - Funzione di creazione nuovo prodotto. 
      - Funzione di cancellazione prodotto. 
-   - Creazione di pagina di dettaglio.   
-*/
-
-const endpointUrl = "https://striveschool-api.herokuapp.com/api/product/";
-const authToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQzY2VkYzI0ZjYwNTAwMTkzN2Q1MTciLCJpYXQiOjE3MDgzNzk4NjgsImV4cCI6MTcwOTU4OTQ2OH0.71W487-Veydagx0166g0G8xmrhie04KU0_Vs2AxYbq4";
-
-window.onload = getContent(); 
-
-async function getContent() {
-  try {
-    const res = await fetch(endpointUrl, {
-      headers: {
-        Authorization: authToken 
-      }
-    });
-    const json = await res.json();
-    console.log(json);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function createContent() {
-  /// Funzione con richiamo di tipo POST per creazione di contenuto sul server.
-  /// contenuto di prova: !! Già caricato !!
-/*   const simpleContent = {
+   - Creazione di pagina di dettaglio.
+   
+  contenuto di esempio: !! Già caricato !!
+   const simpleContent = {
     name: "contentino",
     description: "un piccolo contenuto",
     brand: "nokia",
     imageUrl:
       "https://images.unsplash.com/photo-1708384761254-32964bd16c49?q=80&w=2018&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 999,
-  }; */
+  }; 
 
-  /// Da fare : creazione dinamica con user input !!! 
+*/
+
+const endpointUrl = "https://striveschool-api.herokuapp.com/api/product/";
+const authToken =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQzY2VkYzI0ZjYwNTAwMTkzN2Q1MTciLCJpYXQiOjE3MDgzNzk4NjgsImV4cCI6MTcwOTU4OTQ2OH0.71W487-Veydagx0166g0G8xmrhie04KU0_Vs2AxYbq4";
+const contentBox = document.getElementById('content-area');
+
+window.onload = getContent();
+
+async function getContent() {
+  try {
+    const res = await fetch(endpointUrl, {
+      headers: {
+        Authorization: authToken,
+      },
+    });
+    const json = await res.json(); 
+    cycleContent(json)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+let cycleContent = (json) => {
+   contentBox.innerHTML = ''; 
+
+   json.forEach((single_article) => {
+      showContent(single_article); 
+   })
+}
+
+let showContent = ({name, description, brand, imageUrl, price}) => {
+  /// Usare i metodi javascript per la creazione di nodi del dom. 
+  let outerCol = document.createElement('div')
+  outerCol.classList.add("col-6", "col-md-3")
+
+  let cardWrapper = document.createElement('div')
+  cardWrapper.classList.add("card", "overflow-hidden")
+  outerCol.appendChild(cardWrapper)
+
+  let cardImg = document.createElement('img')
+  cardImg.classList.add("card-img-top")
+  cardImg.src = imageUrl
+  cardImg.alt = description
+  cardWrapper.appendChild(cardImg)
+
+  let cardBody = document.createElement('div')
+  cardBody.classList.add("card-body")
+  cardWrapper.appendChild(cardBody)
+
+  let cardTitle = document.createElement('p')
+  cardTitle.classList.add("card-text", "title")
+  cardTitle.innerText = name
+  
+  console.log(outerCol)
+}
+
+
+let createContent = () => {
+  /// Messo sull'onclick del pulsante 'crea'
+  /// prendere i vari input dell'utente e creare un oggetto con essi.
+
+  console.log("creating....");
+
+  let content_name = document.getElementById("article-name").value;
+  let content_desc = document.getElementById("article-desc").value;
+  let content_brand = document.getElementById("article-brand").value;
+  let content_img = document.getElementById("article-img").value;
+  let content_price = document.getElementById("article-price").value;
+
+  let newContent = {
+    name: content_name,
+    description: content_desc,
+    brand: content_brand,
+    imageUrl: content_img,
+    price: content_price,
+  };
+
+  uploadContent(newContent);
+};
+
+async function uploadContent(newContent) {
+  /// Funzione con richiamo di tipo POST per creazione di contenuto sul server.
+  /// Da fare : creazione dinamica con user input !!!
 
   try {
     const res = await fetch(endpointUrl, {
       method: "POST",
-      body: JSON.stringify(simpleContent),
+      body: JSON.stringify(newContent),
       headers: {
         "Content-type": "application/json;charset=UTF-8",
         Authorization: authToken,
@@ -70,4 +131,3 @@ async function createContent() {
     console.log(error);
   }
 }
-
