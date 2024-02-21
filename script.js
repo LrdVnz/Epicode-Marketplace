@@ -34,8 +34,10 @@ Piano :
 */
 
 const endpointUrl = "https://striveschool-api.herokuapp.com/api/product/";
+
 const authToken =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQzY2VkYzI0ZjYwNTAwMTkzN2Q1MTciLCJpYXQiOjE3MDgzNzk4NjgsImV4cCI6MTcwOTU4OTQ2OH0.71W487-Veydagx0166g0G8xmrhie04KU0_Vs2AxYbq4";
+
 const contentBox = document.getElementById("content-area");
 
 window.onload = getContent();
@@ -54,6 +56,55 @@ async function getContent() {
   }
 }
 
+let createContent = () => {
+  /// Messo sull'onclick del pulsante 'crea'
+  /// prendere i vari input dell'utente e creare un oggetto con essi.
+
+  console.log("creating....");
+
+  let content_name = document.getElementById("article-name").value;
+  let content_desc = document.getElementById("article-desc").value;
+  let content_brand = document.getElementById("article-brand").value;
+  let content_img = document.getElementById("article-img").value;
+  let content_price = document.getElementById("article-price").value;
+
+  if ( content_name && content_desc && content_brand && content_img && content_price ) {
+
+    let newContent = {
+      name: content_name,
+      description: content_desc,
+      brand: content_brand,
+      imageUrl: content_img,
+      price: content_price,
+    };
+
+    uploadContent(newContent);
+    getContent();
+
+  } else {
+    alert("Compila tutti i campi!!");
+  }
+};
+
+async function uploadContent(newContent) {
+  /// Funzione con richiamo di tipo POST per creazione di contenuto sul server.
+
+  try {
+    const res = await fetch(endpointUrl, {
+      method: "POST",
+      body: JSON.stringify(newContent),
+      headers: {
+        "Content-type": "application/json;charset=UTF-8",
+        Authorization: authToken,
+      },
+    });
+    const json = await res.json();
+    console.log(json);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 let cycleContent = (json) => {
   contentBox.innerHTML = "";
 
@@ -62,7 +113,13 @@ let cycleContent = (json) => {
   });
 };
 
-let showContent = ({ name, description, brand, imageUrl, price }) => {
+/* Da fare: 
+  - Funzione di cancellazione degli articoli (aggiungere onclick al tasto creato in showContent)
+  - Funzione che mostra pagina di dettaglio tramite query. 
+*/
+
+// Messa alla fine perché è la funzione più lunga di tutte.
+function showContent({ _id, name, description, brand, imageUrl, price }) {
   /// Usare i metodi javascript per la creazione di nodi del dom.
   let outerCol = document.createElement("div");
   outerCol.classList.add("col-6", "col-md-3");
@@ -101,81 +158,42 @@ let showContent = ({ name, description, brand, imageUrl, price }) => {
   cardPrice.innerText = `${price} €`;
   cardBody.appendChild(cardPrice);
 
-  let cardBtnsBody = document.createElement("div")
-  cardBtnsBody.classList.add("card-body", "d-flex", "justify-content-between", "py-1")
-  cardWrapper.appendChild(cardBtnsBody)
+  let cardBtnsBody = document.createElement("div");
+  cardBtnsBody.classList.add(
+    "card-body",
+    "d-flex",
+    "justify-content-between",
+    "py-1"
+  );
+  cardWrapper.appendChild(cardBtnsBody);
 
-  let cardDetails = document.createElement("a")
-  cardDetails.classList.add("btn", "btn-primary", "ms-1")
-  cardDetails.innerText = 'Details'
-  cardBtnsBody.appendChild(cardDetails)
-  
+  let cardDetails = document.createElement("a");
+  cardDetails.classList.add("btn", "btn-primary", "ms-1");
+  cardDetails.innerText = "Details";
+  cardDetails.href = `details.html?q=${_id}`
+  cardBtnsBody.appendChild(cardDetails);
+
   /* Icona fontAwesome dell'icona plus: 
-  <i class="fa-solid fa-circle-plus" style="color: #dfdddd;"></i>
-   */
-  let cardDetailsIcon = document.createElement("i")
-  cardDetailsIcon.classList.add("fa-solid", "fa-circle-plus", "mx-2")
-  cardDetailsIcon.style = "color : #dfdddd"
-  cardDetails.appendChild(cardDetailsIcon)
+    <i class="fa-solid fa-circle-plus" style="color: #dfdddd;"></i>
+     */
+  let cardDetailsIcon = document.createElement("i");
+  cardDetailsIcon.classList.add("fa-solid", "fa-circle-plus", "mx-2");
+  cardDetailsIcon.style = "color : #dfdddd";
+  cardDetails.appendChild(cardDetailsIcon);
 
-  let cardDelete = document.createElement("a")
-  cardDelete.classList.add("btn", "btn-danger", "ms-1")
-  cardDelete.innerText = 'Delete'
-  cardBtnsBody.appendChild(cardDelete)
+  let cardDelete = document.createElement("a");
+  cardDelete.classList.add("btn", "btn-danger", "ms-1");
+  cardDelete.innerText = "Delete";
+  cardBtnsBody.appendChild(cardDelete);
 
   /* Icona di fontawesome del trash bin : 
-  <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
-  */
-  let cardDelIcon = document.createElement("i")
-  cardDelIcon.classList.add("fa-solid", "fa-trash-can", "mx-2")
-  cardDelIcon.style = "color : #ffffff"
-  cardDelete.appendChild(cardDelIcon)
+    <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
+    */
+
+  let cardDelIcon = document.createElement("i");
+  cardDelIcon.classList.add("fa-solid", "fa-trash-can", "mx-2");
+  cardDelIcon.style = "color : #ffffff";
+  cardDelete.appendChild(cardDelIcon);
 
   contentBox.appendChild(outerCol);
-
-  console.log(outerCol)
 };
-
-let createContent = () => {
-  /// Messo sull'onclick del pulsante 'crea'
-  /// prendere i vari input dell'utente e creare un oggetto con essi.
-
-  console.log("creating....");
-
-  let content_name = document.getElementById("article-name").value;
-  let content_desc = document.getElementById("article-desc").value;
-  let content_brand = document.getElementById("article-brand").value;
-  let content_img = document.getElementById("article-img").value;
-  let content_price = document.getElementById("article-price").value;
-
-  let newContent = {
-    name: content_name,
-    description: content_desc,
-    brand: content_brand,
-    imageUrl: content_img,
-    price: content_price,
-  };
-
-  uploadContent(newContent);
-  getContent();
-};
-
-async function uploadContent(newContent) {
-  /// Funzione con richiamo di tipo POST per creazione di contenuto sul server.
-  /// Da fare : creazione dinamica con user input !!!
-
-  try {
-    const res = await fetch(endpointUrl, {
-      method: "POST",
-      body: JSON.stringify(newContent),
-      headers: {
-        "Content-type": "application/json;charset=UTF-8",
-        Authorization: authToken,
-      },
-    });
-    const json = await res.json();
-    console.log(json);
-  } catch (error) {
-    console.log(error);
-  }
-}
