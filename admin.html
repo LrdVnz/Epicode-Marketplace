@@ -25,10 +25,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="admin.html">Admin board</a>
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
                     </li>
                 </ul>
             </div>
@@ -39,14 +36,35 @@
         <div class="container m-auto mt-5">
             <div class="d-flex align-items-center justify-content-around">
                 <div class="mx-3">
-                    <h1 class="text-light">My marketplace.</h1>
+                    <h1 class="text-light">Modify your products.</h1>
                 </div>
                 <div class="flex-fill mx-3">
                     <form class="d-flex input-group ">
-                        <input type="text" class="form-control" id="product-search" placeholder="Search for something..."
+                        <input type="text" class="form-control" id="book-search" placeholder="Search for something..."
                             aria-label="Search">
                         <button class="btn btn-primary" type="button" id="search-btn">Search</button>
                     </form>
+                </div>
+            </div>
+            <div class="row text-center my-3" id="creation-area">
+                <h3 class="text-light align-start">Create something new!</h3>
+                <!-- Spazio per gli input fields per la creazione di contenuti / articoli.  -->
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="article-name" placeholder="name">
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="article-desc" placeholder="description"></div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="article-brand" placeholder="Brand">
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="article-img" placeholder="imageUrl">
+                </div>
+                <div class="col-md-2">
+                    <input type="number" class="form-control" id="article-price" name="article-price" step="1" min="0" max="999">
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-success" onclick="createContent()">Create Article</button>
                 </div>
             </div>
 
@@ -67,6 +85,7 @@
         crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/b6ee0b770b.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
+    <script src="admin.js"></script>
 </body>
 
 </html>

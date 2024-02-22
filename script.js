@@ -40,6 +40,8 @@ const authToken =
 
 const contentBox = document.getElementById("content-area");
 
+let productsList = undefined ; 
+
 window.onload = getContent();
 
 async function getContent() {
@@ -50,6 +52,7 @@ async function getContent() {
       },
     });
     const json = await res.json();
+    productsList = json; 
     cycleContent(json);
   } catch (error) {
     console.log(error);
@@ -68,8 +71,13 @@ let createContent = () => {
   let content_img = document.getElementById("article-img").value;
   let content_price = document.getElementById("article-price").value;
 
-  if ( content_name && content_desc && content_brand && content_img && content_price ) {
-
+  if (
+    content_name &&
+    content_desc &&
+    content_brand &&
+    content_img &&
+    content_price
+  ) {
     let newContent = {
       name: content_name,
       description: content_desc,
@@ -80,7 +88,6 @@ let createContent = () => {
 
     uploadContent(newContent);
     getContent();
-
   } else {
     alert("Compila tutti i campi!!");
   }
@@ -115,8 +122,30 @@ let cycleContent = (json) => {
 
 /* Da fare: 
   - Funzione di cancellazione degli articoli (aggiungere onclick al tasto creato in showContent)
-  - Funzione che mostra pagina di dettaglio tramite query. 
+  - funzione di live search
 */
+
+
+let searchField = document.getElementById('product-search'); 
+
+searchField.addEventListener("input", (event) => {
+  
+   contentBox.innerHTML = "";
+   filterProducts(searchField.value)
+})
+
+let filterProducts = (searchValue) => {
+ let searchResult = productsList.filter((single_product) => {
+  if (single_product.name.toLowerCase().includes(searchValue.toLowerCase())) {
+    return single_product;
+  }
+ })
+
+ cycleContent(searchResult)
+
+}
+
+
 
 // Messa alla fine perché è la funzione più lunga di tutte.
 function showContent({ _id, name, description, brand, imageUrl, price }) {
@@ -125,7 +154,7 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   outerCol.classList.add("col-6", "col-md-3");
 
   let cardWrapper = document.createElement("div");
-  cardWrapper.classList.add("card", "overflow-hidden");
+  cardWrapper.classList.add("card", "overflow-hidden", "rounded");
   outerCol.appendChild(cardWrapper);
 
   let cardImg = document.createElement("img");
@@ -170,7 +199,7 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   let cardDetails = document.createElement("a");
   cardDetails.classList.add("btn", "btn-primary", "ms-1");
   cardDetails.innerText = "Details";
-  cardDetails.href = `details.html?q=${_id}`
+  cardDetails.href = `details.html?q=${_id}`;
   cardBtnsBody.appendChild(cardDetails);
 
   /* Icona fontAwesome dell'icona plus: 
@@ -181,19 +210,20 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   cardDetailsIcon.style = "color : #dfdddd";
   cardDetails.appendChild(cardDetailsIcon);
 
-  let cardDelete = document.createElement("a");
-  cardDelete.classList.add("btn", "btn-danger", "ms-1");
-  cardDelete.innerText = "Delete";
-  cardBtnsBody.appendChild(cardDelete);
-
-  /* Icona di fontawesome del trash bin : 
+  if (window.location.href.includes("admin.html")) {
+    let cardDelete = document.createElement("a");
+    cardDelete.classList.add("btn", "btn-danger", "ms-1");
+    cardDelete.innerText = "Delete";
+    cardBtnsBody.appendChild(cardDelete);
+    /* Icona di fontawesome del trash bin : 
     <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
     */
 
-  let cardDelIcon = document.createElement("i");
-  cardDelIcon.classList.add("fa-solid", "fa-trash-can", "mx-2");
-  cardDelIcon.style = "color : #ffffff";
-  cardDelete.appendChild(cardDelIcon);
+    let cardDelIcon = document.createElement("i");
+    cardDelIcon.classList.add("fa-solid", "fa-trash-can", "mx-2");
+    cardDelIcon.style = "color : #ffffff";
+    cardDelete.appendChild(cardDelIcon);
+  }
 
   contentBox.appendChild(outerCol);
-};
+}
