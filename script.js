@@ -40,7 +40,7 @@ const authToken =
 
 const contentBox = document.getElementById("content-area");
 
-let productsList = undefined ; 
+let productsList = undefined;
 
 window.onload = getContent();
 
@@ -52,7 +52,7 @@ async function getContent() {
       },
     });
     const json = await res.json();
-    productsList = json; 
+    productsList = json;
     cycleContent(json);
   } catch (error) {
     console.log(error);
@@ -122,30 +122,24 @@ let cycleContent = (json) => {
 
 /* Da fare: 
   - Funzione di cancellazione degli articoli (aggiungere onclick al tasto creato in showContent)
-  - funzione di live search
 */
 
-
-let searchField = document.getElementById('product-search'); 
+let searchField = document.getElementById("product-search");
 
 searchField.addEventListener("input", (event) => {
-  
-   contentBox.innerHTML = "";
-   filterProducts(searchField.value)
-})
+  contentBox.innerHTML = "";
+  filterProducts(searchField.value);
+});
 
 let filterProducts = (searchValue) => {
- let searchResult = productsList.filter((single_product) => {
-  if (single_product.name.toLowerCase().includes(searchValue.toLowerCase())) {
-    return single_product;
-  }
- })
+  let searchResult = productsList.filter((single_product) => {
+    if (single_product.name.toLowerCase().includes(searchValue.toLowerCase())) {
+      return single_product;
+    }
+  });
 
- cycleContent(searchResult)
-
-}
-
-
+  cycleContent(searchResult);
+};
 
 // Messa alla fine perché è la funzione più lunga di tutte.
 function showContent({ _id, name, description, brand, imageUrl, price }) {
