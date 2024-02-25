@@ -7,13 +7,18 @@ const authToken =
 
 const detailBox = document.getElementById('content-area')
 
-if (window.location.search) {
-  getQuery();
-}
+const params = new URLSearchParams(window.location.search);
+const queryValue = params.get("q");
+
+let articleName = document.getElementById("article-name")
+let articleDesc = document.getElementById("article-desc")
+let articleBrand = document.getElementById("article-brand")
+let articleImg = document.getElementById("article-img")
+let articlePrice = document.getElementById("article-price")
+
+window.onload = getQuery();
 
 async function getQuery() {
-  let params = new URLSearchParams(window.location.search);
-  let queryValue = params.get("q");
   console.log(queryValue)
 
   try {
@@ -24,6 +29,7 @@ async function getQuery() {
     });
     const json = await res.json();
     console.log(json)
+    modifyInputs(json)
     showContent(json)
   } catch (error) {
     console.log(error);
@@ -31,7 +37,29 @@ async function getQuery() {
 }
 
 
-function showContent({ _id, name, description, brand, imageUrl, price }) {
+async function modifyContent (modifiedProduct) {
+  try {
+    const res = await fetch(endpointUrl + queryValue, {
+      method: "PUT",
+      headers : {
+        Authorization: authToken,
+      },
+      body: JSON.stringify(modifiedProduct)
+    });
+  } catch(error) {
+    console.log(error)
+  }
+}
+
+let modifyInputs = ({name, description, brand, imageUrl, price}) => {
+  articleName.value = name;
+  articleDesc.value = description;
+  articleBrand.value = brand; 
+  articleImg.value = imageUrl;
+  articlePrice.value = price;
+}
+
+let showContent = ({ _id, name, description, brand, imageUrl, price }) => {
   /// Usare i metodi javascript per la creazione di nodi del dom.
 
   let pageTitle = document.getElementById("page-title");
