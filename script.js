@@ -192,7 +192,7 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
 
   let cardDetails = document.createElement("a");
   cardDetails.classList.add("btn", "btn-primary", "ms-1");
-  cardDetails.innerText = "Details";
+  cardDetails.innerText = "Modify";
   cardDetails.href = `details.html?q=${_id}`;
   cardBtnsBody.appendChild(cardDetails);
 
@@ -208,6 +208,9 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
     let cardDelete = document.createElement("a");
     cardDelete.classList.add("btn", "btn-danger", "ms-1");
     cardDelete.innerText = "Delete";
+    cardDelete.addEventListener("click", () => {
+      deleteProduct(_id)
+    })
     cardBtnsBody.appendChild(cardDelete);
     /* Icona di fontawesome del trash bin : 
     <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
