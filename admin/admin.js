@@ -124,7 +124,7 @@ async function deleteProduct(id) {
 function showContent({ _id, name, description, brand, imageUrl, price }) {
   /// Usare i metodi javascript per la creazione di nodi del dom.
   let outerCol = document.createElement("div");
-  outerCol.classList.add("col-6", "col-md-3");
+  outerCol.classList.add("col-6", "col-md-4", "col-lg-3");
 
   let cardWrapper = document.createElement("div");
   cardWrapper.classList.add("card", "h-100", "overflow-hidden", "rounded");
@@ -165,24 +165,30 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   cardWrapper.appendChild(cardBtnsBody);
 
   /// Details per la pagina di dettaglio senza funzione di modifica.
-  let cardDetails = document.createElement("a");
-  cardDetails.classList.add("btn", "btn-primary", "ms-1");
-  cardDetails.innerText = "Modify";
-  cardDetails.href = `edit.html?q=${_id}`;
-  cardBtnsBody.appendChild(cardDetails);
+  let cardEdit = document.createElement("a");
+  cardEdit.classList.add("btn", "btn-primary", "ms-1");
+  let cardEditText = document.createElement("span")
+  cardEditText.innerText = "Modify";
+  cardEditText.classList.add("d-sm-none", "d-lg-inline")
+  cardEdit.appendChild(cardEditText)
+  cardEdit.href = `edit.html?q=${_id}`;
+  cardBtnsBody.appendChild(cardEdit);
 
   /* Icona fontAwesome dell'icona plus: 
-    <i class="fa-solid fa-circle-plus" style="color: #dfdddd;"></i>
+    <i class="fa-solid fa-pencil" style="color: #f5f5f5;"></i>
          */
-  let cardDetailsIcon = document.createElement("i");
-  cardDetailsIcon.classList.add("fa-solid", "fa-circle-plus", "mx-2");
-  cardDetailsIcon.style = "color : #dfdddd";
-  cardDetails.appendChild(cardDetailsIcon);
+  let cardEditIcon = document.createElement("i");
+  cardEditIcon.classList.add("fa-solid", "fa-pencil", "mx-2");
+  cardEditIcon.style = "color : #dfdddd";
+  cardEdit.appendChild(cardEditIcon);
 
   let cardDelete = document.createElement("button");
   cardDelete.type = "button";
   cardDelete.classList.add("btn", "btn-danger", "ms-1");
-  cardDelete.innerText = "Delete";
+  let cardDeleteText = document.createElement("span")
+  cardDeleteText.innerText = "Delete";
+  cardDeleteText.classList.add("d-sm-none", "d-lg-inline")
+  cardDelete.appendChild(cardDeleteText)
   cardDelete.onclick = passId(_id);
   /* Aggiungi funzione apertura modale di conferma delete 
    data-bs-toggle="modal" data-bs-target="#deleteModal"

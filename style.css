@@ -17,14 +17,14 @@ form .d-flex .input-group {
   padding-bottom: 8px;
 }
 
-.navbar-brand, h1 {
+.navbar-brand, h1, h2, h3{
   font-family: "Goudy Bookletter 1911", serif;
   font-weight: 400;
   font-style: normal;
 }
 
 .btn {
-    height: 50px; 
+    height: 40px; 
 }
 
 .card-img-top {

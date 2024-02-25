@@ -32,9 +32,7 @@ async function getQuery() {
     });
     const json = await res.json();
     console.log(json);
-    if (window.location.href.includes("edit.html")){
     modifyInputs(json);
-    }
     showContent(json);
   } catch (error) {
     console.log(error);
