@@ -59,59 +59,6 @@ async function getContent() {
   }
 }
 
-let createContent = () => {
-  /// Messo sull'onclick del pulsante 'crea'
-  /// prendere i vari input dell'utente e creare un oggetto con essi.
-
-  console.log("creating....");
-
-  let content_name = document.getElementById("article-name").value;
-  let content_desc = document.getElementById("article-desc").value;
-  let content_brand = document.getElementById("article-brand").value;
-  let content_img = document.getElementById("article-img").value;
-  let content_price = document.getElementById("article-price").value;
-
-  if (
-    content_name &&
-    content_desc &&
-    content_brand &&
-    content_img &&
-    content_price
-  ) {
-    let newContent = {
-      name: content_name,
-      description: content_desc,
-      brand: content_brand,
-      imageUrl: content_img,
-      price: content_price,
-    };
-
-    uploadContent(newContent);
-    getContent();
-  } else {
-    alert("Compila tutti i campi!!");
-  }
-};
-
-async function uploadContent(newContent) {
-  /// Funzione con richiamo di tipo POST per creazione di contenuto sul server.
-
-  try {
-    const res = await fetch(endpointUrl, {
-      method: "POST",
-      body: JSON.stringify(newContent),
-      headers: {
-        "Content-type": "application/json;charset=UTF-8",
-        Authorization: authToken,
-      },
-    });
-    const json = await res.json();
-    console.log(json);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 let cycleContent = (json) => {
   contentBox.innerHTML = "";
 
@@ -119,10 +66,6 @@ let cycleContent = (json) => {
     showContent(single_article);
   });
 };
-
-/* Da fare: 
-  - Funzione di cancellazione degli articoli (aggiungere onclick al tasto creato in showContent)
-*/
 
 let searchField = document.getElementById("product-search");
 
@@ -140,42 +83,6 @@ let filterProducts = (searchValue) => {
 
   cycleContent(searchResult);
 };
-
-/// Tasti per l'alert che chiede conferma all'utente sulla cancellazione di un prodotto.
-const dangerAlert = document.getElementById("danger-msg");
-const confirmBtn = document.getElementById("confirm-delete");
-let currentId = undefined;
-
-//Chiedere conferma per la cancellazione : mostrare modale con "Do you really want to delete ? "
-// Mettere nel modale tasto ok o tasto annulla. Agire di conseguenza.
-confirmBtn.addEventListener("click", () => {
-  console.log("CIAOAOAOAO");
-  deleteProduct(currentId);
-});
-
-let passId = (id) => {
-  currentId = id;
-};
-
-const deletedAlert = document.getElementById("deleted-msg");
-async function deleteProduct(id) {
-  try {
-    const res = await fetch(endpointUrl + id, {
-      method: "DELETE",
-      headers: {
-        Authorization: authToken,
-      },
-    });
-    getContent();
-    deletedAlert.classList.toggle("d-none");
-    setTimeout(() => {
-      deletedAlert.classList.toggle("d-none");
-    }, 5000);
-    console.log("cancellato!!!!!!!!!!");
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 // Messa alla fine perché è la funzione più lunga di tutte.
 function showContent({ _id, name, description, brand, imageUrl, price }) {
@@ -224,13 +131,8 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   /// Details per la pagina di dettaglio senza funzione di modifica.
   let cardDetails = document.createElement("a");
   cardDetails.classList.add("btn", "btn-primary", "ms-1");
-  if (window.location.href.includes("admin.html")) {
-    cardDetails.innerText = "Modify";
-    cardDetails.href = `edit.html?q=${_id}`;
-  } else {
-    cardDetails.innerText = "Details";
-    cardDetails.href = `details.html?q=${_id}`;
-  }
+  cardDetails.innerText = "Details";
+  cardDetails.href = `details.html?q=${_id}`;
   cardBtnsBody.appendChild(cardDetails);
 
   /* Icona fontAwesome dell'icona plus: 
@@ -240,29 +142,6 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   cardDetailsIcon.classList.add("fa-solid", "fa-circle-plus", "mx-2");
   cardDetailsIcon.style = "color : #dfdddd";
   cardDetails.appendChild(cardDetailsIcon);
-
-  if (window.location.href.includes("admin.html")) {
-    let cardDelete = document.createElement("button");
-    cardDelete.type = "button";
-    cardDelete.classList.add("btn", "btn-danger", "ms-1");
-    cardDelete.innerText = "Delete";
-    cardDelete.onclick = passId(_id);
-    /* Aggiungi funzione apertura modale di conferma delete 
-   data-bs-toggle="modal" data-bs-target="#deleteModal"
-   */
-    cardDelete.setAttribute("data-bs-toggle", "modal");
-    cardDelete.setAttribute("data-bs-target", "#deleteModal");
-
-    cardBtnsBody.appendChild(cardDelete);
-    /* Icona di fontawesome del trash bin : 
-    <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
-    */
-
-    let cardDelIcon = document.createElement("i");
-    cardDelIcon.classList.add("fa-solid", "fa-trash-can", "mx-2");
-    cardDelIcon.style = "color : #ffffff";
-    cardDelete.appendChild(cardDelIcon);
-  }
 
   contentBox.appendChild(outerCol);
 }
