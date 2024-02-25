@@ -11,6 +11,7 @@ const params = new URLSearchParams(window.location.search);
 const queryValue = params.get("q");
 
 const editedAlert = document.getElementById("update-msg");
+const warningAlert = document.getElementById("warning-msg");
 
 let articleName = document.getElementById("article-name");
 let articleDesc = document.getElementById("article-desc");
@@ -55,31 +56,35 @@ async function modifyContent() {
       imageUrl: articleImg.value,
       price: articlePrice.value,
     };
-  } else {
-    alert("all fields must be compiled !");
-  }
-
-  try {
-    console.log("I'm modifying!!!!!");
-    const res = await fetch(endpointUrl + queryValue, {
-      method: "PUT",
-      body: JSON.stringify(modifiedProduct),
-      headers: {
-        Authorization: authToken,
-        "Content-Type": "application/json",
-      },
-    });
-    detailBox.innerHTML = "";
-    getQuery();
-
-    // Avviso per la modifica avvenuta.
-    editedAlert.classList.toggle("d-none");
-    setTimeout(() => {
+    try {
+      console.log("I'm modifying!!!!!");
+      const res = await fetch(endpointUrl + queryValue, {
+        method: "PUT",
+        body: JSON.stringify(modifiedProduct),
+        headers: {
+          Authorization: authToken,
+          "Content-Type": "application/json",
+        },
+      });
+      detailBox.innerHTML = "";
+      getQuery();
+  
+      // Avviso per la modifica avvenuta.
       editedAlert.classList.toggle("d-none");
+      setTimeout(() => {
+        editedAlert.classList.toggle("d-none");
+      }, 5000);
+    } catch (error) {
+      console.log(error);
+    }
+    
+  } else {
+    warningAlert.classList.toggle("d-none");
+    setTimeout(() => {
+      warningAlert.classList.toggle("d-none");
     }, 5000);
-  } catch (error) {
-    console.log(error);
   }
+
 }
 
 // Per popolare i campi di input con i valori del prodotto.
