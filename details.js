@@ -32,7 +32,9 @@ async function getQuery() {
     });
     const json = await res.json();
     console.log(json);
+    if (window.location.href.includes("edit.html")){
     modifyInputs(json);
+    }
     showContent(json);
   } catch (error) {
     console.log(error);
@@ -106,7 +108,7 @@ let showContent = ({ _id, name, description, brand, imageUrl, price }) => {
   outerImgCol.classList.add("col-6");
 
   let cardImg = document.createElement("img");
-  cardImg.classList.add("card-img-top");
+  cardImg.classList.add("card-img");
   cardImg.src = imageUrl;
   cardImg.alt = description;
   outerImgCol.appendChild(cardImg);

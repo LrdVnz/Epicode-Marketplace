@@ -141,25 +141,25 @@ let filterProducts = (searchValue) => {
   cycleContent(searchResult);
 };
 
-const deletedAlert = document.getElementById('deleted-msg');
+const deletedAlert = document.getElementById("deleted-msg");
 
 async function deleteProduct(id) {
-   try{
-       const res = await fetch(endpointUrl+id, {
-        "method" : "DELETE",
-        headers : {
-            Authorization: authToken,
-        }
-       });
-       getContent()
-       deletedAlert.classList.toggle("d-none");
-       setTimeout(() => {
-        deletedAlert.classList.toggle("d-none");
-       }, 5000);
-       console.log("cancellato!!!!!!!!!!")
-   }catch(error){
-       console.log(error)
-   }
+  try {
+    const res = await fetch(endpointUrl + id, {
+      method: "DELETE",
+      headers: {
+        Authorization: authToken,
+      },
+    });
+    getContent();
+    deletedAlert.classList.toggle("d-none");
+    setTimeout(() => {
+      deletedAlert.classList.toggle("d-none");
+    }, 5000);
+    console.log("cancellato!!!!!!!!!!");
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Messa alla fine perché è la funzione più lunga di tutte.
@@ -169,7 +169,7 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   outerCol.classList.add("col-6", "col-md-3");
 
   let cardWrapper = document.createElement("div");
-  cardWrapper.classList.add("card", "h-100" ,   "overflow-hidden", "rounded");
+  cardWrapper.classList.add("card", "h-100", "overflow-hidden", "rounded");
   outerCol.appendChild(cardWrapper);
 
   let cardImg = document.createElement("img");
@@ -203,23 +203,24 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   cardBody.appendChild(cardPrice);
 
   let cardBtnsBody = document.createElement("div");
-  cardBtnsBody.classList.add(
-    "card-body",
-    "d-flex",
-    "align-items-end",
-    "py-1"
-  );
+  cardBtnsBody.classList.add("card-body", "d-flex", "align-items-end", "py-1");
   cardWrapper.appendChild(cardBtnsBody);
 
+  /// Details per la pagina di dettaglio senza funzione di modifica.
   let cardDetails = document.createElement("a");
   cardDetails.classList.add("btn", "btn-primary", "ms-1");
-  cardDetails.innerText = "Modify";
-  cardDetails.href = `details.html?q=${_id}`;
+  if (window.location.href.includes("admin.html")) {
+    cardDetails.innerText = "Modify";
+    cardDetails.href = `edit.html?q=${_id}`;
+  } else {
+    cardDetails.innerText = "Details";
+    cardDetails.href = `details.html?q=${_id}`;
+  }
   cardBtnsBody.appendChild(cardDetails);
 
   /* Icona fontAwesome dell'icona plus: 
     <i class="fa-solid fa-circle-plus" style="color: #dfdddd;"></i>
-     */
+         */
   let cardDetailsIcon = document.createElement("i");
   cardDetailsIcon.classList.add("fa-solid", "fa-circle-plus", "mx-2");
   cardDetailsIcon.style = "color : #dfdddd";
@@ -230,8 +231,8 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
     cardDelete.classList.add("btn", "btn-danger", "ms-1");
     cardDelete.innerText = "Delete";
     cardDelete.addEventListener("click", () => {
-      deleteProduct(_id)
-    })
+      deleteProduct(_id);
+    });
     cardBtnsBody.appendChild(cardDelete);
     /* Icona di fontawesome del trash bin : 
     <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
