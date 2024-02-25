@@ -39,13 +39,25 @@ async function getQuery() {
 }
 
 async function modifyContent() {
-  let modifiedProduct = {
-    name: articleName.value,
-    description: articleDesc.value,
-    brand: articleBrand.value,
-    imageUrl: articleImg.value,
-    price: articlePrice.value,
-  };
+  let modifiedProduct = {};
+
+  if (
+    articleName.value &&
+    articleDesc.value &&
+    articleBrand.value &&
+    articleImg.value &&
+    articlePrice.value
+  ) {
+    modifiedProduct = {
+      name: articleName.value,
+      description: articleDesc.value,
+      brand: articleBrand.value,
+      imageUrl: articleImg.value,
+      price: articlePrice.value,
+    };
+  } else {
+    alert("all fields must be compiled !");
+  }
 
   try {
     console.log("I'm modifying!!!!!");

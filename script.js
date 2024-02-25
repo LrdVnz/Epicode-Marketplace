@@ -141,6 +141,27 @@ let filterProducts = (searchValue) => {
   cycleContent(searchResult);
 };
 
+const deletedAlert = document.getElementById('deleted-msg');
+
+async function deleteProduct(id) {
+   try{
+       const res = await fetch(endpointUrl+id, {
+        "method" : "DELETE",
+        headers : {
+            Authorization: authToken,
+        }
+       });
+       getContent()
+       deletedAlert.classList.toggle("d-none");
+       setTimeout(() => {
+        deletedAlert.classList.toggle("d-none");
+       }, 5000);
+       console.log("cancellato!!!!!!!!!!")
+   }catch(error){
+       console.log(error)
+   }
+}
+
 // Messa alla fine perché è la funzione più lunga di tutte.
 function showContent({ _id, name, description, brand, imageUrl, price }) {
   /// Usare i metodi javascript per la creazione di nodi del dom.
