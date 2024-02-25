@@ -161,7 +161,7 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   cardBody.appendChild(cardPrice);
 
   let cardBtnsBody = document.createElement("div");
-  cardBtnsBody.classList.add("card-body", "d-flex", "align-items-end", "py-1");
+  cardBtnsBody.classList.add("card-body", "d-flex", "align-items-end", "justify-content-between", "py-1");
   cardWrapper.appendChild(cardBtnsBody);
 
   /// Details per la pagina di dettaglio senza funzione di modifica.
