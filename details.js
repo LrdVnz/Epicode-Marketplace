@@ -10,6 +10,8 @@ const detailBox = document.getElementById('content-area')
 const params = new URLSearchParams(window.location.search);
 const queryValue = params.get("q");
 
+const editedAlert = document.getElementById("update-msg")
+
 let articleName = document.getElementById("article-name")
 let articleDesc = document.getElementById("article-desc")
 let articleBrand = document.getElementById("article-brand")
@@ -56,6 +58,14 @@ async function modifyContent() {
         "Content-Type": "application/json"
       },
     });
+    detailBox.innerHTML = "";
+    getQuery();
+
+    // Avviso per la modifica avvenuta.
+    editedAlert.classList.toggle("d-none");
+    setTimeout(() => {
+        editedAlert.classList.toggle("d-none");
+    }, 5000);
   } catch(error) {
     console.log(error)
   }
