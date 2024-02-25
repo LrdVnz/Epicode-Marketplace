@@ -3,7 +3,7 @@
 const endpointUrl = "https://striveschool-api.herokuapp.com/api/product/";
 
 const authToken =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQzY2VkYzI0ZjYwNTAwMTkzN2Q1MTciLCJpYXQiOjE3MDgzNzk4NjgsImV4cCI6MTcwOTU4OTQ2OH0.71W487-Veydagx0166g0G8xmrhie04KU0_Vs2AxYbq4";
+"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQzY2VkYzI0ZjYwNTAwMTkzN2Q1MTciLCJpYXQiOjE3MDg4NjA2NjcsImV4cCI6MTcxMDA3MDI2N30.A0eCbRbZ0RoM6ARP4PFBO_3JjZcXYac1X7zeAXoZ5cY"
 
 const detailBox = document.getElementById('content-area')
 
@@ -36,21 +36,32 @@ async function getQuery() {
   }
 }
 
+async function modifyContent() {
+  
+  let modifiedProduct = {
+     name : articleName.value,
+     description : articleDesc.value,
+     brand : articleBrand.value, 
+     imageUrl : articleImg.value,
+     price : articlePrice.value,
+  }
 
-async function modifyContent (modifiedProduct) {
   try {
+    console.log("I'm modifying!!!!!")
     const res = await fetch(endpointUrl + queryValue, {
-      method: "PUT",
+      "method": "PUT",
+      "body": JSON.stringify(modifiedProduct),
       headers : {
         Authorization: authToken,
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(modifiedProduct)
     });
   } catch(error) {
     console.log(error)
   }
 }
 
+// Per popolare i campi di input con i valori del prodotto.
 let modifyInputs = ({name, description, brand, imageUrl, price}) => {
   articleName.value = name;
   articleDesc.value = description;
