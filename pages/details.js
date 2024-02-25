@@ -71,19 +71,19 @@ let showContent = ({ _id, name, description, brand, imageUrl, price }) => {
   );
   cardWrapper.appendChild(cardBody);
 
-  let cardDesc = document.createElement("h5");
+  let cardDesc = document.createElement("h2");
   cardDesc.classList.add("card-text", "description");
-  cardDesc.innerText = description;
+  cardDesc.innerHTML = "Description: <b> " + description + "</b>";
   cardBody.appendChild(cardDesc);
 
-  let cardBrand = document.createElement("p");
+  let cardBrand = document.createElement("h3");
   cardBrand.classList.add("card-text", "brand");
-  cardBrand.innerText = brand;
+  cardBrand.innerHTML = "Brand: <b>" + brand + "</b>";
   cardBody.appendChild(cardBrand);
 
-  let cardPrice = document.createElement("p");
+  let cardPrice = document.createElement("h3");
   cardPrice.classList.add("card-text", "price");
-  cardPrice.innerText = `${price} €`;
+  cardPrice.innerHTML = "Price: <b>" + price + " € </b>";
   cardBody.appendChild(cardPrice);
 
   detailBox.appendChild(outerImgCol);
