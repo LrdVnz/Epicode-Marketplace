@@ -169,7 +169,7 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   outerCol.classList.add("col-6", "col-md-3");
 
   let cardWrapper = document.createElement("div");
-  cardWrapper.classList.add("card", "overflow-hidden", "rounded");
+  cardWrapper.classList.add("card", "h-100" ,   "overflow-hidden", "rounded");
   outerCol.appendChild(cardWrapper);
 
   let cardImg = document.createElement("img");
@@ -206,7 +206,7 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   cardBtnsBody.classList.add(
     "card-body",
     "d-flex",
-    "justify-content-between",
+    "align-items-end",
     "py-1"
   );
   cardWrapper.appendChild(cardBtnsBody);

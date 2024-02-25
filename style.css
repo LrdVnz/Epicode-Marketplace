@@ -22,3 +22,12 @@ form .d-flex .input-group {
   font-weight: 400;
   font-style: normal;
 }
+
+.btn {
+    height: 50px; 
+}
+
+.card-img-top {
+    height: 50%;
+    object-fit: cover;
+}
