@@ -141,8 +141,23 @@ let filterProducts = (searchValue) => {
   cycleContent(searchResult);
 };
 
-const deletedAlert = document.getElementById("deleted-msg");
+/// Tasti per l'alert che chiede conferma all'utente sulla cancellazione di un prodotto.
+const dangerAlert = document.getElementById("danger-msg");
+const confirmBtn = document.getElementById("confirm-delete");
+let currentId = undefined;
 
+//Chiedere conferma per la cancellazione : mostrare modale con "Do you really want to delete ? "
+// Mettere nel modale tasto ok o tasto annulla. Agire di conseguenza.
+confirmBtn.addEventListener("click", () => {
+  console.log("CIAOAOAOAO");
+  deleteProduct(currentId);
+});
+
+let passId = (id) => {
+  currentId = id;
+};
+
+const deletedAlert = document.getElementById("deleted-msg");
 async function deleteProduct(id) {
   try {
     const res = await fetch(endpointUrl + id, {
@@ -227,12 +242,17 @@ function showContent({ _id, name, description, brand, imageUrl, price }) {
   cardDetails.appendChild(cardDetailsIcon);
 
   if (window.location.href.includes("admin.html")) {
-    let cardDelete = document.createElement("a");
+    let cardDelete = document.createElement("button");
+    cardDelete.type = "button";
     cardDelete.classList.add("btn", "btn-danger", "ms-1");
     cardDelete.innerText = "Delete";
-    cardDelete.addEventListener("click", () => {
-      deleteProduct(_id);
-    });
+    cardDelete.onclick = passId(_id);
+    /* Aggiungi funzione apertura modale di conferma delete 
+   data-bs-toggle="modal" data-bs-target="#deleteModal"
+   */
+    cardDelete.setAttribute("data-bs-toggle", "modal");
+    cardDelete.setAttribute("data-bs-target", "#deleteModal");
+
     cardBtnsBody.appendChild(cardDelete);
     /* Icona di fontawesome del trash bin : 
     <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>

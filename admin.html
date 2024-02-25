@@ -40,8 +40,8 @@
                 </div>
                 <div class="flex-fill mx-3">
                     <form class="d-flex input-group ">
-                        <input type="text" class="form-control" id="product-search" placeholder="Search for something..."
-                            aria-label="Search">
+                        <input type="text" class="form-control" id="product-search"
+                            placeholder="Search for something..." aria-label="Search">
                         <button class="btn btn-primary" type="button" id="search-btn">Search</button>
                     </form>
                 </div>
@@ -50,6 +50,32 @@
                 <i class="fa-solid fa-pencil me-1"></i>
                 <span>The product was successfully deleted !</span>
             </div>
+
+            <!-- Modal per la richiesta di conferma cancellazione. -->
+            <!-- Button trigger modal -->
+            <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                Launch demo modal
+            </button>
+ -->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do you really want to delete this product ? 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="confirm-delete">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row text-center my-3" id="creation-area">
                 <h3 class="text-light align-start">Create something new!</h3>
                 <!-- Spazio per gli input fields per la creazione di contenuti / articoli.  -->
@@ -57,7 +83,8 @@
                     <input type="text" class="form-control" id="article-name" placeholder="name">
                 </div>
                 <div class="col-md-2">
-                    <input type="text" class="form-control" id="article-desc" placeholder="description"></div>
+                    <input type="text" class="form-control" id="article-desc" placeholder="description">
+                </div>
                 <div class="col-md-2">
                     <input type="text" class="form-control" id="article-brand" placeholder="Brand">
                 </div>
@@ -65,7 +92,8 @@
                     <input type="text" class="form-control" id="article-img" placeholder="imageUrl">
                 </div>
                 <div class="col-md-2">
-                    <input type="number" class="form-control" id="article-price" name="article-price" step="1" min="0" max="999">
+                    <input type="number" class="form-control" id="article-price" name="article-price" step="1" min="0"
+                        max="999">
                 </div>
                 <div class="col-md-2">
                     <button type="button" class="btn btn-success" onclick="createContent()">Create Article</button>
